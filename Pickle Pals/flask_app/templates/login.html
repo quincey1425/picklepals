@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>PicklePals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body style="background-color: black;">
+  <div id="picture">
+    <img style="height: 150px; margin: 15px;" src="/static/picklepals.png" alt="">
+  </div>
+  {% with messages = get_flashed_messages(category_filter=['login']) %}
+  {% if messages %}
+  <div class="alert alert-danger" role="alert">
+          {% for message in messages %}
+          <p>{{message}}</p>
+          {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <form action="/signin" method="post" class="col-4 p-4 bg-black text-dark" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <div class="bar">
+        <input placeholder="EMAIL" type="text" name="email" id="email">
+      </div>
+      <div class="bar">
+        <input placeholder="PASSWORD" type="password" name="password" id="password">
+      </div>
+      <input class="login" type="submit" value="LOGIN">
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>PicklePals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body style="background-color: black;">
+  <div style="display: flex; justify-content: space-between;">
+    <div id="picture">
+      <img style="height: 150px; margin: 15px;" src="/static/picklepals.png" alt="">
+    </div>
+    <div class="dropdown">
+      <div style="display: flex; align-items: center;">
+        <h2 style="color: white;"> {{user.first_name}} </h2>
+        <img class="menu-icon" src="/static/menu_white.svg.png" alt="">
+      </div>
+      <div class="dropdown-content">
+        <h5><a href="/pals">Your Pals</a></h5>
+        <h5><a href="/edit/profile">Edit Account</a></h5>
+        <h5><a href="/logout">Log Out</a></h5>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <h1 style="margin-bottom: 5px; color: white;">Find New Players</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>USERNAME</th>
+          <th>RANK</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>
+              {% if user.ranking %}
+                &starf;{{ user.ranking }}
+              {% else %}
+                <a href="/edit/profile">Finish your account</a>
+              {% endif %}
+            </td>
+            <td>
+              {% if user.id != current_user.id %}
+                <a href="/view/{{ user.id }}">view</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // JavaScript for toggling the dropdown menu
+    document.addEventListener('DOMContentLoaded', function() {
+      var menuIcon = document.querySelector('.dropdown .menu-icon');
+      var dropdownContent = document.querySelector('.dropdown-content');
+      
+      menuIcon.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdownContent.style.display = (dropdownContent.style.display === 'block') ? 'none' : 'block';
+      });
+      
+      document.addEventListener('click', function() {
+        dropdownContent.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

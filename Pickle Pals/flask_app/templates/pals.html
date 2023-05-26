@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>PicklePals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body style="background-color: black;">
+  <div class="dashboard-container">
+    <div id="picture">
+      <img style="height: 150px; margin: 15px;" src="/static/picklepals.png" alt="">
+    </div>
+    <a class="dashboard-button" href="/dashboard">Dashboard</a>
+  </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <h1 style="margin-bottom: 5px; color: white;">Your Pals</h1>
+      {% if friends %}
+      <table>
+        <thead>
+          <tr>
+            <th>USERNAME</th>
+            <th>RANK</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for friend in friends %}
+            <tr>
+              <td>{{ friend.first_name }} {{ friend.last_name }}</td>
+              <td>&starf;{{ friend.ranking }}</td>
+              <td>
+                <a style="color: red;" href="/delete/pal/{{ friend.id }}" onclick="return confirmDelete(event);">remove</a>
+              </td>
+            </tr>
+          {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="3" style="text-align: center; font-size: 18px; color: white;">No friends found.</td>
+            </tr>
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+
+    <div id="confirmation-modal" class="modal">
+      <div class="modal-content">
+        <p>Are you sure you want to remove this friend?</p>
+        <div class="modal-actions">
+          <button class="yes" onclick="confirmDeleteAction(true)">Yes</button>
+          <button class="no" onclick="confirmDeleteAction(false)">No</button>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      function confirmDelete(event) {
+        event.preventDefault(); // Prevents the default link action
+        
+        var confirmationModal = document.getElementById("confirmation-modal");
+        confirmationModal.style.display = "block"; // Display the modal
+        
+        return false; // Prevents navigation immediately
+      }
+    
+      function confirmDeleteAction(shouldDelete) {
+        var confirmationModal = document.getElementById("confirmation-modal");
+        
+        if (shouldDelete) {
+          // User confirmed the deletion
+          confirmationModal.style.display = "none"; // Hide the modal
+          // Get the delete link URL
+          var deleteLink = document.querySelector('a[href^="/delete/pal/"]');
+          var deleteUrl = deleteLink.getAttribute("href");
+          // Navigate to the delete link URL
+          window.location.href = deleteUrl;
+        } else {
+          // User canceled the deletion
+          confirmationModal.style.display = "none"; // Hide the modal
+        }
+      }
+    </script>
+    
+    <style>
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+    
+      .modal-content {
+        background-color: #fff;
+        width: 300px;
+        margin: 150px auto;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+      }
+    
+      .modal-actions {
+        margin-top: 20px;
+      }
+    
+      .modal-actions button {
+      margin: 0 10px;
+      padding: 8px 16px;
+      border-radius: 5px;
+      border: solid 1px black;
+      cursor: pointer;
+      }
+
+      .modal-actions button.yes {
+      background-color: green;
+      color: white;
+      }
+
+      .modal-actions button.no {
+      background-color: red;
+      color: white;
+      }
+    </style>
+</body>
+</html>

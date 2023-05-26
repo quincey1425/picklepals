@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>PicklePals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            background-color: black;
+            height: 100vh;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            margin-bottom: 100px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 400px;
+            padding: 20px;
+            background-color: rgb(17, 17, 17);
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-group label {
+            color: white;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"], input[type="number"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background-color: rgb(25, 25, 25);
+            color: white;
+        }
+
+        .form-group textarea {
+            height: 120px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #E76A3C;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div id="picture">
+            <img style="height: 150px; margin: 15px;" src="/static/picklepals.png" alt="">
+        </div>
+        <a class="dashboard-button" href="/dashboard">Dashboard</a>
+    </div>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(category_filter=['update']) %}
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/user/update" method="post">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" id="first_name" value="{{ user.first_name }}">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" id="last_name" value="{{ user.last_name }}">
+            </div>
+            <div class="form-group">
+                <label for="ranking">Rank:</label>
+                <input type="number" name="ranking" id="ranking" value="{{ user.ranking }}">
+            </div>
+            <div class="form-group">
+                <label for="about_me">About Me:</label>
+                <textarea name="about_me" id="about_me">{{ user.about_me }}</textarea>
+            </div>
+            <input type="hidden" name="id" value="{{ session['user_id'] }}">
+            <div class="form-group">
+                <input type="submit" value="UPDATE">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

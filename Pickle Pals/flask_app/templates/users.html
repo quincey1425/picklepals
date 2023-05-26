@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>PicklePals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    
+  </style>
+</head>
+<body style="background-color: black;">
+
+  <div class="dashboard-container">
+    <div id="picture">
+      <img style="height: 150px; margin: 15px;" src="/static/picklepals.png" alt="">
+    </div>
+    <a class="dashboard-button" href="/dashboard">Dashboard</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>USERNAME</th>
+        <th>RANK</th>
+        <th>ABOUT ME</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{{ user.ranking }}</td>
+        <td>{{ user.about_me }}</td>  
+      </tr>
+    </tbody>
+  </table>
+
+<div style="display: flex; align-items: center; justify-content: center;">
+  {% with messages = get_flashed_messages(category_filter=['mark']) %}
+  {% if messages %}
+    <div class="flash-messages">
+      {% for message in messages %}
+        <div style="color: red;" class="flash-message">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% endwith %}
+
+  {% with messages = get_flashed_messages(category_filter=['success']) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <div style="color: green;" class="flash-message">{{ message }}!</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+</div>
+
+
+<div style="display: flex; align-items: center; justify-content: center;">
+  <form method="POST" action="/new/pal">
+    <input type="hidden" name="first_name" value="{{ user.first_name }}">
+    <input type="hidden" name="last_name" value="{{ user.last_name }}">
+    <input type="hidden" name="ranking" value="{{ user.ranking }}">
+    <input style="width: 100px; margin: 10px;" class="login" type="submit" value="ADD PAL">
+  </form>
+</div>
+  
+
+</body>
+</html>
